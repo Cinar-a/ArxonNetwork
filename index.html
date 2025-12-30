@@ -21,6 +21,30 @@
       color: white;
     }
 
+    /* 🔥 SAĞ ÜST BUTONLAR */
+    .top-buttons {
+      position: fixed;
+      top: 20px;
+      right: 25px;
+      display: flex;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .top-buttons a {
+      padding: 10px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      transition: 0.25s;
+    }
+
+    .top-buttons a:hover {
+      transform: scale(1.08);
+    }
+
     .container {
       background: rgba(0,0,0,0.45);
       padding: 40px;
@@ -82,6 +106,12 @@
 
 <body>
 
+<!-- 🔥 SAĞ ÜST -->
+<div class="top-buttons">
+  <a href="login.html">Login</a>
+  <a href="register.html">Register</a>
+</div>
+
 <div class="container">
   <h1>ArxonNetwork</h1>
   <p>Türkiye'nin en sağlam Minecraft sunucusu</p>
@@ -96,7 +126,7 @@
 
   <div class="buttons">
     <a href="https://discord.gg/pwfbYdMg9m" target="_blank">Discord</a>
-    <a href="https://cinar-a.github.io/ArxonNetwork/magaza.html" target="_blank">Mağaza</a>
+    <a href="https://cinar-a.github.io/ArxonNetwork/magaza.html">Mağaza</a>
   </div>
 </div>
 
@@ -119,13 +149,9 @@ async function checkServer() {
     if (data.online === true) {
       statusEl.innerHTML = "🟢 Sunucu AÇIK";
       statusEl.style.color = "#00ff88";
-
-      playersEl.innerHTML =
-        `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
     } else {
-      statusEl.innerHTML = "🔴 Sunucu KAPALI";
-      statusEl.style.color = "#ff4c4c";
-      playersEl.innerHTML = "";
+      throw "offline";
     }
 
   } catch {
@@ -143,7 +169,6 @@ function copyIP() {
   alert("IP kopyalandı");
 }
 </script>
-
 
 </body>
 </html>
