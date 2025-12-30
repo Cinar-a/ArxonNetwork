@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>ArxonNetwork</title>
+
   <style>
     * {
       margin: 0;
@@ -78,6 +79,7 @@
     }
   </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -94,7 +96,7 @@
 
   <div class="buttons">
     <a href="https://discord.gg/pwfbYdMg9m" target="_blank">Discord</a>
-<a href="https://cinar-a.github.io/ArxonNetwork/magaza.html" target="_blank">Mağaza</a>
+    <a href="https://cinar-a.github.io/ArxonNetwork/magaza.html" target="_blank">Mağaza</a>
   </div>
 </div>
 
@@ -116,21 +118,17 @@ async function checkServer() {
 
     const data = await res.json();
 
-    // 🔥 KRİTİK KONTROL
-    // Sunucu açık sayılması için:
-    // - online true olacak
-    // - ping olacak
-    if (data.online !== true || !data.latency) {
+    if (data.online === true) {
+      statusEl.innerHTML = "🟢 Sunucu AÇIK";
+      statusEl.style.color = "#00ff88";
+
+      playersEl.innerHTML =
+        `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+    } else {
       throw new Error("Offline");
     }
 
-    statusEl.innerHTML = "🟢 Sunucu AÇIK";
-    statusEl.style.color = "#00ff88";
-
-    playersEl.innerHTML =
-      `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
-
-  } catch (e) {
+  } catch {
     statusEl.innerHTML = "🔴 Sunucu KAPALI";
     statusEl.style.color = "#ff4c4c";
     playersEl.innerHTML = "";
@@ -138,7 +136,7 @@ async function checkServer() {
 }
 
 checkServer();
-setInterval(checkServer, 30000); // 30 saniyede bir yeniler
+setInterval(checkServer, 30000);
 
 function copyIP() {
   navigator.clipboard.writeText("ArxonNetwork.aternos.me:20659");
