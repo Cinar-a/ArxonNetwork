@@ -7,19 +7,52 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>ArxonNetwork</h1>
-    <p>Türkiye'nin en sağlam Minecraft sunucusu</p>
+<div class="container">
+  <h1>ArxonNetwork</h1>
+  <p>Türkiye'nin en sağlam Minecraft sunucusu</p>
 
-    <div class="ip-box">
-      IP: <span>ArxonNetwork.aternos.me:20659</span>
-    </div>
+  <div class="status" id="status">Sunucu kontrol ediliyor...</div>
+  <div class="players" id="players"></div>
 
-    <div class="buttons">
-      <a href="https://discord.gg/linkin" target="_blank">Discord</a>
-      <a href="#">Oyna</a>
-    </div>
+  <div class="ip-box" onclick="copyIP()">
+    IP: <span id="ip">ArxonNetwork.aternos.me:20659</span>
+    <small>(tıkla kopyala)</small>
   </div>
+
+  <div class="buttons">
+    <a href="https://discord.gg/linkin" target="_blank">Discord</a>
+    <a href="https://magaza-linkin.com" target="_blank">Mağaza</a>
+  </div>
+</div>
+
+<script>
+const ip = "ArxonNetwork.aternos.me";
+const port = "20659";
+
+fetch(`https://api.mcstatus.io/v2/status/java/${ip}:${port}`)
+  .then(res => res.json())
+  .then(data => {
+    const statusEl = document.getElementById("status");
+    const playersEl = document.getElementById("players");
+
+    if (data.online) {
+      statusEl.innerHTML = "🟢 Sunucu Aktif";
+      statusEl.classList.add("online");
+      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+    } else {
+      statusEl.innerHTML = "🔴 Sunucu Kapalı";
+      statusEl.classList.add("offline");
+    }
+  })
+  .catch(() => {
+    document.getElementById("status").innerHTML = "🔴 Durum alınamadı";
+  });
+
+function copyIP() {
+  navigator.clipboard.writeText("ArxonNetwork.aternos.me:20659");
+  alert("IP kopyalandı");
+}
+</script>
 
 </body>
 </html>
