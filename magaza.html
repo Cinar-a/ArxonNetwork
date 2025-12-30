@@ -102,3 +102,11 @@
 
 </body>
 </html>
+<script src="auth.js"></script>
+<script>
+if (isLoggedIn()) {
+  console.log("Giriş yapan:", getUser());
+} else {
+  console.log("Misafir");
+}
+</script>
