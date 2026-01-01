@@ -140,19 +140,24 @@ async function checkServer() {
 
   try {
     const res = await fetch(
-      `https://api.mcsrvstat.us/3/${ip}:${port}`,
+      `https://api.mcstatus.io/v2/status/java/${ip}:${port}`,
       { cache: "no-store" }
     );
+
+    if (!res.ok) throw "offline";
 
     const data = await res.json();
 
     if (data.online === true) {
       statusEl.innerHTML = "🟢 Sunucu AÇIK";
       statusEl.style.color = "#00ff88";
-      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+
+      playersEl.innerHTML =
+        `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
     } else {
       throw "offline";
     }
+
   } catch {
     statusEl.innerHTML = "🔴 Sunucu KAPALI";
     statusEl.style.color = "#ff4c4c";
@@ -161,13 +166,7 @@ async function checkServer() {
 }
 
 checkServer();
-setInterval(checkServer, 1000);
-
-
-function copyIP() {
-  navigator.clipboard.writeText("ArxonNetwork.aternos.me:20659");
-  alert("IP kopyalandı");
-}
+setInterval(checkServer, 5000); // 🔥 5 saniyede bir kontrol
 </script>
 
 </body>
