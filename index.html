@@ -139,24 +139,32 @@ async function checkServer() {
   const playersEl = document.getElementById("players");
 
   try {
-    const res = await fetch(
-      `https://api.mcstatus.io/v2/status/java/${ip}:${port}`,
-      { cache: "no-store" }
-    );
+    let res = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`, {
+      cache: "no-store"
+    });
+    let data = await res.json();
 
-    if (!res.ok) throw "offline";
-
-    const data = await res.json();
-
-    if (data.online === true) {
+    if (data.online) {
       statusEl.innerHTML = "🟢 Sunucu AÇIK";
       statusEl.style.color = "#00ff88";
-
-      playersEl.innerHTML =
-        `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
-    } else {
-      throw "offline";
+      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+      return;
     }
+
+    // fallback API
+    res = await fetch(`https://api.mcstatus.io/v2/status/java/${ip}:${port}`, {
+      cache: "no-store"
+    });
+    data = await res.json();
+
+    if (data.online) {
+      statusEl.innerHTML = "🟢 Sunucu AÇIK";
+      statusEl.style.color = "#00ff88";
+      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
+      return;
+    }
+
+    throw "offline";
 
   } catch {
     statusEl.innerHTML = "🔴 Sunucu KAPALI";
@@ -166,8 +174,9 @@ async function checkServer() {
 }
 
 checkServer();
-setInterval(checkServer, 5000); // 🔥 5 saniyede bir kontrol
+setInterval(checkServer, 2000); // ⏱️ 2 saniye
 </script>
+
 
 </body>
 </html>
