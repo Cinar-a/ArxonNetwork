@@ -72,95 +72,70 @@ button {
 <div id="rehberList"></div>
 
 <script>
-const currentUser = localStorage.getItem("loginUser");
-const admins = ["mehmety3232","syvex"];
+function loadAllApplications() {
+  const aacEl = document.getElementById("aacList");
+  const rehberEl = document.getElementById("rehberList");
 
-if (!currentUser || !admins.includes(currentUser.toLowerCase()))
-  location.href="index.html";
+  aacEl.innerHTML = "";
+  rehberEl.innerHTML = "";
 
-adminName.innerText="👤 Yetkili: "+currentUser;
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
 
-/* KREDİ */
-function giveCredit(){
-  const raw=localStorage.getItem("user_"+target.value);
-  if(!raw) return alert("Kullanıcı yok");
-  const d=JSON.parse(raw);
-  d.credit=(d.credit||0)+Number(credit.value);
-  localStorage.setItem("user_"+target.value,JSON.stringify(d));
-  alert("Kredi verildi");
-}
+    if (!key.startsWith("applications_")) continue;
 
-/* BAN */
-function banUser(){
-  const raw=localStorage.getItem("user_"+target.value);
-  if(!raw) return alert("Yok");
-  const d=JSON.parse(raw);
-  d.banned=true;
-  localStorage.setItem("user_"+target.value,JSON.stringify(d));
-}
-function unbanUser(){
-  const raw=localStorage.getItem("user_"+target.value);
-  if(!raw) return alert("Yok");
-  const d=JSON.parse(raw);
-  d.banned=false;
-  localStorage.setItem("user_"+target.value,JSON.stringify(d));
-}
+    const nick = key.replace("applications_", "");
+    const list = JSON.parse(localStorage.getItem(key)) || [];
 
-/* STATUS + SİLME */
-function setStatus(key,index,status){
-  let list=JSON.parse(localStorage.getItem(key))||[];
-  if(status==="no"){
-    list.splice(index,1); // RED → SİL
-  } else {
-    list[index].status="ok"; // ONAY
+    list.forEach((a, index) => {
+      const html = `
+        <div class="app">
+          <b>Nick:</b> ${nick}<br>
+          <b>Tür:</b> ${a.type}<br>
+          <b>Durum:</b> ${a.status}<br>
+          <small>${a.date}</small><br><br>
+
+          <button onclick="approve('${key}', ${index})">✅ Onayla</button>
+          <button onclick="reject('${key}', ${index})">❌ Reddet</button>
+          <button onclick="removeApp('${key}', ${index})">🗑 Sil</button>
+        </div>
+      `;
+
+      if (a.type === "AAC") {
+        aacEl.innerHTML += html;
+      } else if (a.type === "REHBER") {
+        rehberEl.innerHTML += html;
+      }
+    });
   }
-  localStorage.setItem(key,JSON.stringify(list));
-  loadAAC(); loadRehber();
+
+  if (!aacEl.innerHTML) aacEl.innerHTML = "<p>AAC başvurusu yok.</p>";
+  if (!rehberEl.innerHTML) rehberEl.innerHTML = "<p>Rehber başvurusu yok.</p>";
 }
 
-/* AAC */
-function loadAAC(){
-  const list=JSON.parse(localStorage.getItem("aac_basvuru")||"[]");
-  aacList.innerHTML=list.length? "" : "<p>Başvuru yok</p>";
-  list.forEach((b,i)=>{
-    aacList.innerHTML+=`
-    <div class="app">
-      <b>${b.nick}</b><br>
-      ${b.kont}<br><br>
-      ${b.uyg}<br>
-      <small>${b.tarih}</small>
-      <div class="action-btns">
-        <button class="ok" onclick="setStatus('aac_basvuru',${i},'ok')">Onayla</button>
-        <button class="no" onclick="setStatus('aac_basvuru',${i},'no')">Reddet</button>
-      </div>
-    </div>`;
-  });
+/* ===== DURUM FONKSİYONLARI ===== */
+function approve(key, i) {
+  const list = JSON.parse(localStorage.getItem(key));
+  list[i].status = "Onaylandı";
+  localStorage.setItem(key, JSON.stringify(list));
+  loadAllApplications();
 }
 
-/* REHBER */
-function loadRehber(){
-  const list=JSON.parse(localStorage.getItem("rehber_basvuru")||"[]");
-  rehberList.innerHTML=list.length? "" : "<p>Başvuru yok</p>";
-  list.forEach((b,i)=>{
-    rehberList.innerHTML+=`
-    <div class="app">
-      <b>${b.nick}</b><br>
-      ${b.yazi}<br>
-      <small>${b.tarih}</small>
-      <div class="action-btns">
-        <button class="ok" onclick="setStatus('rehber_basvuru',${i},'ok')">Onayla</button>
-        <button class="no" onclick="setStatus('rehber_basvuru',${i},'no')">Reddet</button>
-      </div>
-    </div>`;
-  });
+function reject(key, i) {
+  const list = JSON.parse(localStorage.getItem(key));
+  list[i].status = "Reddedildi";
+  localStorage.setItem(key, JSON.stringify(list));
+  loadAllApplications();
 }
 
-loadAAC(); loadRehber();
-
-function logout(){
-  localStorage.removeItem("loginUser");
-  location.href="login.html";
+function removeApp(key, i) {
+  const list = JSON.parse(localStorage.getItem(key));
+  list.splice(i, 1);
+  localStorage.setItem(key, JSON.stringify(list));
+  loadAllApplications();
 }
+
+loadAllApplications();
 </script>
 
 </body>
