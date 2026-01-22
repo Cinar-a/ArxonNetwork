@@ -38,10 +38,6 @@ h1 {
   text-shadow: 0 0 20px rgba(139,124,255,0.8);
 }
 
-.rules {
-  margin-bottom: 35px;
-}
-
 .rules li {
   margin: 10px 0;
   opacity: 0.9;
@@ -60,7 +56,6 @@ input, textarea {
   outline: none;
   background: rgba(0,0,0,0.5);
   color: white;
-  font-size: 15px;
 }
 
 textarea {
@@ -69,7 +64,6 @@ textarea {
 }
 
 button {
-  margin-top: 10px;
   background: linear-gradient(135deg, #7b6cff, #5a4dff);
   color: white;
   border: none;
@@ -78,11 +72,6 @@ button {
   font-size: 17px;
   cursor: pointer;
   box-shadow: 0 0 30px rgba(123,108,255,0.8);
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
 }
 
 .success {
@@ -102,52 +91,55 @@ button:hover {
 <div class="container">
   <h1>📘 Rehber Başvurusu</h1>
 
-  <div class="rules">
-    <ul>
-      <li>Saygılı ve tarafsız olmak zorunludur.</li>
-      <li>Yetki kişisel çıkar için kullanılamaz.</li>
-      <li>Oyunculara doğru bilgi verilir.</li>
-      <li>Toxic davranış, küfür yasaktır.</li>
-      <li>Sunucuyu her ortamda temsil ettiğini unutma.</li>
-    </ul>
-  </div>
+  <ul class="rules">
+    <li>Saygılı ve tarafsız olmak zorunludur.</li>
+    <li>Yetki kişisel çıkar için kullanılamaz.</li>
+    <li>Oyunculara doğru bilgi verilir.</li>
+    <li>Toxic davranış yasaktır.</li>
+  </ul>
 
   <form onsubmit="sendForm(event)">
-    <input id="nick" placeholder="Minecraft Nick">
-    <input id="discord" placeholder="Discord (isim#0000)">
-    <input id="age" type="number" placeholder="Yaş">
-    <textarea id="why" placeholder="Neden rehber olmak istiyorsun?"></textarea>
+    <input id="nick" placeholder="Minecraft Nick" disabled>
+    <input id="discord" placeholder="Discord (isim#0000)" required>
+    <input id="age" type="number" placeholder="Yaş" required>
+    <textarea id="why" placeholder="Neden rehber olmak istiyorsun?" required></textarea>
     <textarea id="exp" placeholder="Daha önce yetkililik tecrüben var mı?"></textarea>
 
     <button type="submit">📨 Başvuruyu Gönder</button>
   </form>
 
   <div class="success" id="success">
-    ✅ Başvurun alındı. Yetkililer inceleyecek.
+    ✅ Rehber başvurun kaydedildi.
   </div>
 </div>
 
 <script>
+const user = localStorage.getItem("loginUser");
+
+if (!user) {
+  alert("Giriş yapmadan başvuru yapamazsın.");
+  location.href = "index.html";
+}
+
+document.getElementById("nick").value = user;
+
 function sendForm(e) {
   e.preventDefault();
 
-  const data = {
-    nick: nick.value,
+  const app = {
+    type: "Rehber Başvuru",
+    status: "Beklemede",
+    date: new Date().toLocaleDateString("tr-TR"),
     discord: discord.value,
     age: age.value,
     why: why.value,
-    exp: exp.value,
-    time: new Date().toLocaleString()
+    exp: exp.value
   };
 
-  if (!data.nick || !data.discord || !data.why) {
-    alert("Boş alan bırakma");
-    return;
-  }
-
-  const list = JSON.parse(localStorage.getItem("rehber_basvurular") || "[]");
-  list.push(data);
-  localStorage.setItem("rehber_basvurular", JSON.stringify(list));
+  const key = "applications_" + user;
+  const list = JSON.parse(localStorage.getItem(key)) || [];
+  list.push(app);
+  localStorage.setItem(key, JSON.stringify(list));
 
   document.getElementById("success").style.display = "block";
   e.target.reset();
