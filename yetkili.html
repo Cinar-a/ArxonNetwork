@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Yetkili Paneli</title>
+<title>Yetkili Paneli | ArxonNetwork</title>
 
 <style>
 body {
@@ -12,11 +12,16 @@ body {
   padding: 30px;
 }
 
+h2 {
+  color: #00c6ff;
+}
+
 .box {
   background: rgba(0,0,0,0.5);
   padding: 20px;
   border-radius: 15px;
-  max-width: 400px;
+  max-width: 450px;
+  margin-bottom: 30px;
 }
 
 input, button {
@@ -34,9 +39,30 @@ button {
 }
 
 #adminName {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-weight: bold;
   opacity: 0.9;
+}
+
+/* BAŞVURU KUTULARI */
+.app {
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border-left: 4px solid #00c6ff;
+}
+
+.app b {
+  color: #7b6cff;
+}
+
+.app small {
+  opacity: 0.7;
+}
+
+.section {
+  max-width: 800px;
 }
 </style>
 </head>
@@ -56,27 +82,28 @@ button {
   <button onclick="logout()">🚪 Çıkış Yap</button>
 </div>
 
-<script>
-// GİRİŞ YAPAN KULLANICI
-const currentUser = localStorage.getItem("loginUser");
+<!-- AAC BAŞVURULAR -->
+<div class="section">
+  <h2>🛡 AAC Başvuruları</h2>
+  <div id="aacList"></div>
+</div>
 
-// SADECE BU İKİSİ ADMİN
+<script>
+/* ================== AUTH ================== */
+const currentUser = localStorage.getItem("loginUser");
 const admins = ["mehmety3232", "syvex"];
 
-// GİRİŞ YOKSA YA DA ADMİN DEĞİLSE → SİKTİR GİT
 if (!currentUser || !admins.includes(currentUser.toLowerCase())) {
   location.href = "index.html";
 }
 
-// YETKİLİ ADINI YAZ
 document.getElementById("adminName").innerText =
   "👤 Giriş yapan yetkili: " + currentUser;
 
-// KREDİ VER
+/* ================== KREDİ ================== */
 function giveCredit() {
-  const u = document.getElementById("target").value;
-  const c = Number(document.getElementById("credit").value);
-
+  const u = target.value;
+  const c = Number(credit.value);
   if (!u || !c) return alert("Alanları doldur");
 
   const raw = localStorage.getItem("user_" + u);
@@ -84,42 +111,64 @@ function giveCredit() {
 
   const data = JSON.parse(raw);
   data.credit = (data.credit || 0) + c;
-
   localStorage.setItem("user_" + u, JSON.stringify(data));
   alert("Kredi verildi");
 }
 
-// BANLA
+/* ================== BAN ================== */
 function banUser() {
-  const u = document.getElementById("target").value;
-  if (!u) return alert("Kullanıcı adı yaz");
+  const u = target.value;
+  if (!u) return alert("Nick yaz");
 
   const raw = localStorage.getItem("user_" + u);
   if (!raw) return alert("Kullanıcı yok");
 
   const data = JSON.parse(raw);
   data.banned = true;
-
   localStorage.setItem("user_" + u, JSON.stringify(data));
-  alert("Kullanıcı banlandı");
+  alert("Banlandı");
 }
 
-// BAN AÇ
 function unbanUser() {
-  const u = document.getElementById("target").value;
-  if (!u) return alert("Kullanıcı adı yaz");
+  const u = target.value;
+  if (!u) return alert("Nick yaz");
 
   const raw = localStorage.getItem("user_" + u);
   if (!raw) return alert("Kullanıcı yok");
 
   const data = JSON.parse(raw);
   data.banned = false;
-
   localStorage.setItem("user_" + u, JSON.stringify(data));
-  alert("Kullanıcının banı kaldırıldı");
+  alert("Ban açıldı");
 }
 
-// ÇIKIŞ
+/* ================== AAC BAŞVURULAR ================== */
+function loadAAC() {
+  const list = JSON.parse(localStorage.getItem("aac_basvurular") || "[]");
+  const el = document.getElementById("aacList");
+
+  if (list.length === 0) {
+    el.innerHTML = "<p>Henüz AAC başvurusu yok.</p>";
+    return;
+  }
+
+  el.innerHTML = "";
+  list.forEach(b => {
+    el.innerHTML += `
+      <div class="app">
+        <b>Nick:</b> ${b.nick}<br>
+        <b>Kont Süreci:</b><br>${b.kont}<br><br>
+        <b>Kullandığı Uygulamalar:</b><br>${b.uyg}<br><br>
+        ${b.ek ? "<b>Ek:</b><br>" + b.ek + "<br><br>" : ""}
+        <small>📅 ${b.tarih}</small>
+      </div>
+    `;
+  });
+}
+
+loadAAC();
+
+/* ================== LOGOUT ================== */
 function logout() {
   localStorage.removeItem("loginUser");
   location.href = "login.html";
