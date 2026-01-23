@@ -1,69 +1,176 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanıcı Hakları & Gizlilik</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #1f2937;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #111827;
-        }
-        p {
-            line-height: 1.6;
-        }
-        section {
-            margin-bottom: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>ArxonMC | Kullanıcı Hakları & Gizlilik</title>
+
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #7b6cff;
+      margin-bottom: 30px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #7b6cff, 0 0 10px #7b6cff; }
+      100% { text-shadow: 0 0 20px #4b3cff, 0 0 30px #7b6cff; }
+    }
+
+    .section {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(123,108,255,0.25);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.2s; }
+    .section:nth-child(2) { animation-delay: 0.4s; }
+    .section:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #7b6cff;
+      margin-bottom: 15px;
+    }
+
+    p, ul {
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+    }
+
+    button {
+      background: #7b6cff;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5f52ff;
+    }
+
+    /* 🔥 TEŞEKKÜR OVERLAY */
+    #thanksOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    #thanksOverlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .thanksBox {
+      background: linear-gradient(135deg, #7b6cff, #4b3cff);
+      padding: 40px 60px;
+      border-radius: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 0 40px rgba(123,108,255,0.8);
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>ArxonNetwork Kullanıcı Hakları ve Gizlilik Politikası</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Kullanıcı Hakları</h2>
-            <p>Kullanıcılar, ArxonNetwork platformunda hesap açarak aşağıdaki haklara sahiptir:</p>
-            <ul>
-                <li>Hesap bilgilerini görüntüleme ve güncelleme hakkı</li>
-                <li>Kendi içeriklerini yönetme ve paylaşma hakkı</li>
-                <li>Gizlilik ve veri güvenliği hakları</li>
-            </ul>
-        </section>
 
-        <section>
-            <h2>Gizlilik Politikası</h2>
-            <p>ArxonNetwork kullanıcılarının kişisel bilgilerini korumaya özen gösterir. Toplanan bilgiler:</p>
-            <ul>
-                <li>Hesap adı ve iletişim bilgileri</li>
-                <li>Platform içi etkinlik ve oyun verileri</li>
-            </ul>
-            <p>Bu bilgiler, yalnızca kullanıcı deneyimini iyileştirmek ve platformu güvenli tutmak için kullanılır. Bilgiler üçüncü taraflarla paylaşılmaz.</p>
-        </section>
+<h1>📜 ArxonMC Kullanıcı Hakları & Gizlilik</h1>
 
-        <section>
-            <h2>İletişim</h2>
-            <p>Gizlilik ve haklar ile ilgili sorularınızı <a href="mailto:support@arxonnetwork.com">support@arxonnetwork.com</a> adresinden iletebilirsiniz.</p>
-        </section>
-    </main>
+<div class="section">
+  <h2>Kullanıcı Hakları</h2>
+  <ul>
+    <li>Hesap bilgilerini görüntüleme ve güncelleme hakkı</li>
+    <li>Kendi içeriklerini yönetme ve paylaşma hakkı</li>
+    <li>Gizlilik ve veri güvenliği hakları</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>Gizlilik Politikası</h2>
+  <p>ArxonMC kullanıcılarının bilgilerini korur. Toplanan bilgiler:</p>
+  <ul>
+    <li>Hesap adı ve iletişim bilgileri</li>
+    <li>Platform içi etkinlik ve oyun verileri</li>
+  </ul>
+  <p>Bu bilgiler yalnızca kullanıcı deneyimi ve güvenliği için kullanılır. Üçüncü taraflarla paylaşılmaz.</p>
+</div>
+
+<div class="section">
+  <h2>İletişim</h2>
+  <p>Gizlilik veya haklar ile ilgili sorularınız için:</p>
+  <a href="mailto:support@arxonnetwork.com"><button>📧 Bize Yazın</button></a>
+</div>
+
+<div class="back">
+  <a href="index.html">
+    <button>⬅ Ana Sayfa</button>
+  </a>
+</div>
+
+<!-- 🔥 TEŞEKKÜR OVERLAY -->
+<div id="thanksOverlay">
+  <div class="thanksBox">
+    💜 Okuduğun İçin Teşekkürler 💜
+  </div>
+</div>
+
+<script>
+function showThanks() {
+  const overlay = document.getElementById("thanksOverlay");
+  overlay.classList.add("show");
+
+  setTimeout(() => {
+    overlay.classList.remove("show");
+  }, 2500);
+}
+
+// Sayfa yüklendiğinde kısa bir teşekkür animasyonu göstermek için
+window.onload = () => {
+  showThanks();
+}
+</script>
+
 </body>
 </html>
