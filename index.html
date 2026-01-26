@@ -1,72 +1,111 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Arxon</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Arka plan */
-    body {
-      background: url('https://images.wallpapersden.com/image/download/minecraft-village_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<title>Arxon Network</title>
 
-    /* Bildirim stili */
-    .notif {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #333;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      z-index: 9999;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    /* Kart stili (mevcut) */
-    .card {
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      padding: 20px;
-      margin: 50px auto;
-      width: 300px;
-      border-radius: 10px;
-      text-align: center;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: url("https://images.wallpapersden.com/image/download/minecraft-village_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg")
+    no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
 
-    .buttons button {
-      margin: 5px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+/* BAŞLIK */
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  text-shadow: 0 0 15px #000;
+}
+
+/* PROFİL BAR */
+.profile-bar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.75);
+  padding: 10px 20px;
+}
+
+.profile-bar img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-bar button {
+  margin-left: auto;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* ANA KART */
+.card {
+  background: rgba(0,0,0,0.65);
+  width: 320px;
+  max-width: 90%;
+  margin: 60px auto;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.status {
+  margin: 15px 0;
+}
+
+.buttons button {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* BİLDİRİM */
+.notif {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #222;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+</style>
 </head>
 
 <body>
 
 <h1>🔥 Arxon Network 🔥</h1>
 
-<!-- PROFİL BAR -->
-<div class="profile-bar" id="profileBar" style="display:none;">
-  <img id="mc-head" src="">
+<div class="profile-bar" id="profileBar">
+  <img id="mc-head">
   <div class="profile-info">
     <span id="mc-name"></span>
     <span id="mc-credit"></span>
   </div>
-  <button onclick="logout()" style="margin-left:15px;">Çıkış</button>
+  <button onclick="logout()">Çıkış</button>
 </div>
 
-<!-- ANA KART -->
 <div class="card">
   <p>
     <b>IP:</b> <span id="server-ip">193.164.4.244</span>
-    <button onclick="copyIP()">📋 Kopyala</button>
+    <button onclick="copyIP()">📋</button>
   </p>
 
   <div class="status">
@@ -75,93 +114,59 @@
   </div>
 
   <div class="buttons">
-    <button onclick="openShop()">🛒 Mağaza</button>
-    <button onclick="openAAC()">🛡 AAC Başvuru</button>
-    <button onclick="openRehber()">📘 Rehber Başvuru</button>
-    <button onclick="location.href='basvurularim.html'">📄 Başvurularım</button>
-    <button onclick="location.href='ArxonNetworkHaklar.html'">Gizlilik Hakları</button>
+    <button onclick="go('magaza.html')">🛒 Mağaza</button>
+    <button onclick="go('aac-basvuru.html')">🛡 AAC Başvuru</button>
+    <button onclick="go('rehber-basvuru.html')">📘 Rehber Başvuru</button>
+    <button onclick="go('basvurularim.html')">📄 Başvurularım</button>
+    <button onclick="go('ArxonNetworkHaklar.html')">Gizlilik Hakları</button>
   </div>
 </div>
 
 <script>
-/* ================== LOGIN ================== */
-const currentUser = localStorage.getItem("loginUser");
-
-if (currentUser) {
-  const raw = localStorage.getItem("user_" + currentUser);
-  if (raw) {
-    const data = JSON.parse(raw);
-
-    document.getElementById("profileBar").style.display = "flex";
-    document.getElementById("mc-name").innerText = currentUser;
-    document.getElementById("mc-credit").innerText =
-      "💎 " + (data.credit || 0) + " Kredi";
-    document.getElementById("mc-head").src =
-      "https://mc-heads.net/avatar/" + currentUser + "/64";
-  }
+/* LOGIN */
+const user = localStorage.getItem("loginUser");
+if (user) {
+  const data = JSON.parse(localStorage.getItem("user_" + user) || "{}");
+  profileBar.style.display = "flex";
+  mc-name.innerText = user;
+  mc-credit.innerText = "💎 " + (data.credit || 0);
+  mc-head.src = "https://mc-heads.net/avatar/" + user + "/64";
 }
 
-/* ================== NAV ================== */
-function openAAC() {
-  location.href = "aac-basvuru.html";
+/* NAV */
+function go(page) {
+  document.body.style.opacity = "0";
+  setTimeout(() => location.href = page, 400);
 }
 
-function openRehber() {
-  location.href = "rehber-basvuru.html";
-}
-
-function openShop() {
-  document.body.style.transition = "transform 0.6s ease";
-  document.body.style.transform = "translateY(-120%)";
-  setTimeout(() => {
-    location.href = "magaza.html";
-  }, 600);
-}
-
-/* ================== LOGOUT ================== */
 function logout() {
   localStorage.removeItem("loginUser");
   location.reload();
 }
 
-/* ================== SERVER STATUS ================== */
-const ip = "193.164.4.244";
-const port = "25565";
-
+/* SERVER STATUS */
 async function checkServer() {
   try {
-    const res = await fetch(
-      `https://api.mcstatus.io/v2/status/java/${ip}:${port}`,
-      { cache: "no-store" }
-    );
-    const data = await res.json();
-
-    if (data.online) {
-      document.getElementById("status-text").innerHTML = "🟢 AÇIK";
-      document.getElementById("player-count").innerText =
-        data.players.online + " / " + data.players.max;
-    } else {
-      throw "kapali";
-    }
+    const r = await fetch("https://api.mcstatus.io/v2/status/java/193.164.4.244:25565",{cache:"no-store"});
+    const d = await r.json();
+    status-text.innerText = d.online ? "🟢 AÇIK" : "🔴 KAPALI";
+    player-count.innerText = d.online ? d.players.online+" / "+d.players.max : "0";
   } catch {
-    document.getElementById("status-text").innerHTML = "🔴 KAPALI";
-    document.getElementById("player-count").innerText = "0";
+    status-text.innerText = "🔴 KAPALI";
+    player-count.innerText = "0";
   }
 }
-
 checkServer();
-setInterval(checkServer, 15000);
+setInterval(checkServer,15000);
 
-/* ================== COPY IP ================== */
+/* COPY IP */
 function copyIP() {
-  const ip = document.getElementById("server-ip").innerText;
-  navigator.clipboard.writeText(ip).then(() => {
-    const notif = document.createElement("div");
-    notif.innerText = "Sunucu adresi kopyalandı!";
-    notif.className = "notif";
-    document.body.appendChild(notif);
-    setTimeout(() => notif.remove(), 2000);
-  });
+  navigator.clipboard.writeText(server-ip.innerText);
+  const n=document.createElement("div");
+  n.className="notif";
+  n.innerText="IP kopyalandı";
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),2000);
 }
 </script>
 
