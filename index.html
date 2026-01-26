@@ -249,7 +249,11 @@ footer {
 </section>
 
 <section class="stats">
-  <div class="card">Online Oyuncu<span>1.248</span></div>
+ <div class="card">
+  Sunucu Durumu
+  <span id="server-status">Yükleniyor...</span>
+</div>
+
   <div class="card">Toplam Kayıt<span>47.892</span></div>
   <div class="card">En Yüksek Bağış<span>14.750 TL</span></div>
   <div class="card">Uptime<span>99.98%</span></div>
@@ -258,11 +262,11 @@ footer {
 <section class="activities">
   <h2>Son Aktiviteler</h2>
   <table>
-    <tr><td>xCinarEfe</td><td>10.000 TL bağış yaptı</td><td>2 dk önce</td></tr>
-    <tr><td>DarkMiner</td><td>Legendary rank aldı</td><td>5 dk önce</td></tr>
-    <tr><td>ArxonTR</td><td>Spawner kazandı</td><td>11 dk önce</td></tr>
-    <tr><td>VoidX</td><td>5.000 TL bağış yaptı</td><td>20 dk önce</td></tr>
-    <tr><td>KaraBox</td><td>Boss kesti</td><td>28 dk önce</td></tr>
+    <tr><td>Kimse Yok</td><td>10.000 TL bağış yaptı</td><td>2 dk önce</td></tr>
+    <tr><td>Kimse Yokr</td><td>Legendary rank aldı</td><td>5 dk önce</td></tr>
+    <tr><td>Kimse Yok</td><td>Spawner kazandı</td><td>11 dk önce</td></tr>
+    <tr><td>Kimse Yok</td><td>Kimse Yok</td><td>20 dk önce</td></tr>
+    <tr><td>Kimse Yok</td><td>Kimse Yok</td><td>28 dk önce</td></tr>
   </table>
 </section>
 
@@ -273,7 +277,7 @@ footer {
 </section>
 
 <footer>
-  © 2025 Arxon Network • Trabzon'dan sevgilerle
+  © 2026 Arxon Network All rights reserved.• Türkiye'den Selamlar
 </footer>
 
 <script>
@@ -292,6 +296,38 @@ particlesJS("particles-js", {
   }
 });
 </script>
+  <script>
+const IP = "193.164.4.244";
+const PORT = 25565; // farklıysa değiştir
+
+async function fetchServerStatus() {
+  try {
+    const res = await fetch(`https://api.mcstatus.io/v2/status/java/${IP}:${PORT}`);
+    const data = await res.json();
+
+    const el = document.getElementById("server-status");
+
+    if (data.online) {
+      el.innerHTML = `ᯤ ${data.players.online} Oyuncu`;
+      el.style.color = "#22c55e";
+      el.style.textShadow = "0 0 12px #22c55e";
+    } else {
+      el.innerHTML = `ᯤ Sunucu Kapalı`;
+      el.style.color = "#ef4444";
+      el.style.textShadow = "0 0 12px #ef4444";
+    }
+
+  } catch (e) {
+    const el = document.getElementById("server-status");
+    el.innerHTML = "ᯤ Bağlantı Yok";
+    el.style.color = "#f97316";
+  }
+}
+
+fetchServerStatus();
+setInterval(fetchServerStatus, 10000);
+</script>
+
 
 </body>
 </html>
