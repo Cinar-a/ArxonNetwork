@@ -13,6 +13,7 @@ body { font-family: 'Inter', sans-serif; }
 @keyframes pulse { 0%, 100%{ transform: scale(1);} 50%{ transform: scale(1.1); } }
 .toast { position: fixed; top: 20px; right: -400px; background: #111; color:white; padding:15px 25px; border-radius:12px; z-index:9999; transition: right 0.3s; border-left:4px solid #43b581;}
 .toast.show { right:20px; }
+.modal { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
 </style>
 </head>
 <body class="bg-black text-white">
@@ -31,8 +32,9 @@ body { font-family: 'Inter', sans-serif; }
     <a href="#support" class="px-3 py-2 rounded hover:bg-gray-800/50 transition">🎧 Destek</a>
   </div>
   <div class="hidden md:flex space-x-2">
-    <button onclick="showToast('Giriş sayfası yakında!')" class="px-3 py-2 rounded hover:bg-gray-800/50">Giriş Yap</button>
-    <button onclick="showToast('Kayıt sayfası yakında!')" class="px-3 py-2 rounded bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">Kayıt Ol</button>
+    <button id="loginBtn" class="px-3 py-2 rounded hover:bg-gray-800/50">Giriş Yap</button>
+    <button id="registerBtn" class="px-3 py-2 rounded bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">Kayıt Ol</button>
+    <button id="logoutBtn" class="px-3 py-2 rounded bg-red-600 hidden">Çıkış Yap</button>
   </div>
   <button onclick="toggleMobileMenu()" class="md:hidden">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,8 +47,9 @@ body { font-family: 'Inter', sans-serif; }
   <a href="#store" class="block px-4 py-2 hover:bg-gray-800">🛒 Mağaza</a>
   <a href="#help" class="block px-4 py-2 hover:bg-gray-800">❓ Yardım</a>
   <a href="#support" class="block px-4 py-2 hover:bg-gray-800">🎧 Destek</a>
-  <button onclick="showToast('Giriş sayfası yakında!')" class="w-full text-left px-4 py-2 hover:bg-gray-800">Giriş Yap</button>
-  <button onclick="showToast('Kayıt sayfası yakında!')" class="w-full text-left px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white">Kayıt Ol</button>
+  <button id="loginBtnMobile" class="w-full text-left px-4 py-2 hover:bg-gray-800">Giriş Yap</button>
+  <button id="registerBtnMobile" class="w-full text-left px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white">Kayıt Ol</button>
+  <button id="logoutBtnMobile" class="w-full text-left px-4 py-2 bg-red-600 hidden">Çıkış Yap</button>
 </div>
 </nav>
 
@@ -62,8 +65,8 @@ body { font-family: 'Inter', sans-serif; }
     <h1 class="text-5xl md:text-6xl font-bold mb-4">Arxon NW</h1>
     <p class="text-gray-300 mb-8">Topluluğumuza katılmak için giriş yapın veya kaydolun.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <button onclick="showToast('Giriş sayfası yakında!')" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 rounded-lg shadow-lg">Giriş Yap</button>
-      <button onclick="showToast('Kayıt sayfası yakında!')" class="px-8 py-4 border-2 border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 shadow-lg">Kayıt Ol</button>
+      <button id="heroLoginBtn" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 rounded-lg shadow-lg">Giriş Yap</button>
+      <button id="heroRegisterBtn" class="px-8 py-4 border-2 border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 shadow-lg">Kayıt Ol</button>
     </div>
     <div onclick="copyServerAddress()" class="mt-8 inline-flex items-center space-x-2 bg-gray-900/80 px-6 py-3 rounded-lg cursor-pointer hover:bg-gray-800/80">
       <span>Sunucu Adresi:</span>
@@ -72,6 +75,28 @@ body { font-family: 'Inter', sans-serif; }
     </div>
   </div>
 </section>
+
+<!-- Login/Register Modal -->
+<div id="loginPanel" class="hidden fixed inset-0 flex justify-center items-center modal z-50">
+  <div class="bg-gray-900 p-8 rounded-lg w-full max-w-md text-center">
+    <h2 class="text-2xl font-bold mb-4">Giriş / Kayıt</h2>
+    
+    <div id="loginForm">
+      <input type="text" placeholder="Kullanıcı Adı" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="password" placeholder="Şifre" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <button id="loginSubmit" class="w-full bg-cyan-500 hover:bg-cyan-400 py-3 rounded-lg mt-2">Giriş Yap</button>
+    </div>
+
+    <div id="registerForm" class="hidden mt-4">
+      <input type="text" placeholder="Kullanıcı Adı" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="password" placeholder="Şifre" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="email" placeholder="E-posta" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <button id="registerSubmit" class="w-full bg-blue-500 hover:bg-blue-400 py-3 rounded-lg mt-2">Kayıt Ol</button>
+    </div>
+
+    <button id="closePanel" class="mt-4 text-gray-400 hover:text-white">✖ Kapat</button>
+  </div>
+</div>
 
 <!-- Store -->
 <section id="store" class="container mx-auto px-4 py-16">
@@ -97,19 +122,46 @@ body { font-family: 'Inter', sans-serif; }
 <div id="toast" class="toast">Mesaj</div>
 
 <script>
-function toggleMobileMenu(){
-  document.getElementById('mobileMenu').classList.toggle('hidden');
-}
-function showToast(msg){
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
-}
-function copyServerAddress(){
-  navigator.clipboard.writeText('193.164.4.244');
-  showToast('Sunucu adresi kopyalandı!');
-}
+function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.toggle('hidden'); }
+function showToast(msg){ const toast = document.getElementById('toast'); toast.innerText = msg; toast.classList.add('show'); setTimeout(()=>{ toast.classList.remove('show'); }, 2500);}
+function copyServerAddress(){ navigator.clipboard.writeText('193.164.4.244'); showToast('Sunucu adresi kopyalandı!'); }
+
+// Modal & login/register
+const loginPanel = document.getElementById('loginPanel');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const loginBtnMobile = document.getElementById('loginBtnMobile');
+const registerBtnMobile = document.getElementById('registerBtnMobile');
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+const heroLoginBtn = document.getElementById('heroLoginBtn');
+const heroRegisterBtn = document.getElementById('heroRegisterBtn');
+const closePanel = document.getElementById('closePanel');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+
+[loginBtn, loginBtnMobile, heroLoginBtn].forEach(el=>el.addEventListener('click', ()=>{ loginPanel.classList.remove('hidden'); loginForm.classList.remove('hidden'); registerForm.classList.add('hidden'); }));
+[registerBtn, registerBtnMobile, heroRegisterBtn].forEach(el=>el.addEventListener('click', ()=>{ loginPanel.classList.remove('hidden'); loginForm.classList.add('hidden'); registerForm.classList.remove('hidden'); }));
+closePanel.addEventListener('click', ()=>{ loginPanel.classList.add('hidden'); });
+
+// Login/Register simülasyonu
+document.getElementById('loginSubmit').addEventListener('click', ()=>{
+  loginPanel.classList.add('hidden');
+  [loginBtn, registerBtn, loginBtnMobile, registerBtnMobile, heroLoginBtn, heroRegisterBtn].forEach(el=>el.classList.add('hidden'));
+  [logoutBtn, logoutBtnMobile].forEach(el=>el.classList.remove('hidden'));
+});
+
+document.getElementById('registerSubmit').addEventListener('click', ()=>{
+  loginPanel.classList.add('hidden');
+  [loginBtn, registerBtn, loginBtnMobile, registerBtnMobile, heroLoginBtn, heroRegisterBtn].forEach(el=>el.classList.add('hidden'));
+  [logoutBtn, logoutBtnMobile].forEach(el=>el.classList.remove('hidden'));
+});
+
+// Logout
+[logoutBtn, logoutBtnMobile].forEach(el=>el.addEventListener('click', ()=>{
+  [logoutBtn, logoutBtnMobile].forEach(e=>e.classList.add('hidden'));
+  [loginBtn, registerBtn, loginBtnMobile, registerBtnMobile, heroLoginBtn, heroRegisterBtn].forEach(e=>e.classList.remove('hidden'));
+}));
 </script>
 
 </body>
