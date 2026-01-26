@@ -1,155 +1,136 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Sunucu</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Sunucu Adı</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: url("https://www.vironcraft.com/assets/img/bg.jpg") center/cover no-repeat fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
 
-body {
-  min-height: 100vh;
-  color: white;
-  background:
-    radial-gradient(circle at top left, #6d28d9, transparent 40%),
-    radial-gradient(circle at bottom right, #4c1d95, transparent 40%),
-    linear-gradient(180deg, #0b0216, #05010a);
-}
+    .overlay {
+      background: rgba(0, 0, 0, 0.65);
+      padding: 30px;
+      border-radius: 14px;
+      width: 90%;
+      max-width: 900px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.7);
+    }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 40px;
-  background: rgba(20, 10, 40, 0.55);
-  backdrop-filter: blur(10px);
-}
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: bold;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-.container {
-  text-align: center;
-  margin-top: 140px;
-}
+    th, td {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
 
-h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
+    th {
+      background: rgba(255,255,255,0.1);
+      font-size: 18px;
+    }
 
-.ip {
-  font-size: 22px;
-  padding: 14px 26px;
-  border: 1px solid rgba(255,255,255,0.25);
-  display: inline-block;
-  border-radius: 12px;
-  cursor: pointer;
-  background: rgba(0,0,0,0.25);
-}
+    tr:hover {
+      background: rgba(255,255,255,0.07);
+    }
 
-.status {
-  margin-top: 14px;
-  font-size: 18px;
-  opacity: 0.9;
-}
+    .ip-box {
+      background: rgba(0,0,0,0.5);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-block;
+    }
 
-.discord {
-  margin-top: 40px;
-}
+    .ip-box:hover {
+      background: rgba(255,255,255,0.15);
+    }
 
-.discord a {
-  text-decoration: none;
-  color: white;
-  border: 1px solid #5865F2;
-  padding: 12px 22px;
-  border-radius: 10px;
-}
+    .btn {
+      background: #ff9800;
+      color: #000;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
 
-.toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.85);
-  padding: 14px 26px;
-  border-radius: 10px;
-  display: none;
-}
-</style>
+    .btn:hover {
+      background: #ffc107;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
-
 <body>
 
-<nav>
-  <div>Sunucu</div>
-  <div>
-    <a href="#">Ana Sayfa</a>
-    <a href="#">Duyurular</a>
-    <a href="#">Mağaza</a>
-  </div>
-</nav>
+<div class="overlay">
+  <h1>⚔ SUNUCU ADI ⚔</h1>
 
-<div class="container">
-  <h1>Sunucumuza Hoş Geldin</h1>
+  <table>
+    <tr>
+      <th>Bilgi</th>
+      <th>Detay</th>
+    </tr>
 
-  <div class="ip" onclick="copyIP()">
-    IP: 193.164.4.244
-  </div>
+    <tr>
+      <td>Sunucu IP</td>
+      <td>
+        <div class="ip-box" onclick="navigator.clipboard.writeText('play.sunucuadi.com')">
+          play.sunucuadi.com
+        </div>
+      </td>
+    </tr>
 
-  <div class="status" id="status">
-    Kontrol ediliyor...
-  </div>
+    <tr>
+      <td>Sürüm</td>
+      <td>1.16.5 – 1.20.x</td>
+    </tr>
 
-  <div class="discord">
-    <p>Discord daveti:</p><br>
-    <a href="https://discord.gg/HEEPr9k9uD" target="_blank">
-      Discord’a Katıl
-    </a>
-  </div>
+    <tr>
+      <td>Oyun Türü</td>
+      <td>Survival / SkyBlock / Faction</td>
+    </tr>
+
+    <tr>
+      <td>Discord</td>
+      <td>
+        <a class="btn" href="#" target="_blank">Katıl</a>
+      </td>
+    </tr>
+  </table>
+
+  <footer>
+    © 2026 Sunucu Adı | Tüm Hakları Saklıdır
+  </footer>
 </div>
-
-<div class="toast" id="toast">IP kopyalandı</div>
-
-<script>
-const ip = "193.164.4.244";
-
-function copyIP() {
-  navigator.clipboard.writeText(ip);
-  const t = document.getElementById("toast");
-  t.style.display = "block";
-  setTimeout(() => t.style.display = "none", 1500);
-}
-
-async function checkServer() {
-  try {
-    const res = await fetch(`https://api.mcstatus.io/v2/status/java/${ip}`);
-    const data = await res.json();
-    const s = document.getElementById("status");
-
-    if (data.online) {
-      s.innerHTML = "ᯤ Açık | Oyuncular: " + data.players.online;
-    } else {
-      s.innerHTML = "ᯤ̶ Kapalı";
-    }
-  } catch {
-    document.getElementById("status").innerHTML = "ᯤ̶ Bilgi alınamadı";
-  }
-}
-
-checkServer();
-setInterval(checkServer, 10000);
-</script>
 
 </body>
 </html>
