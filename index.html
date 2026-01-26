@@ -1,212 +1,243 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arxon NW</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* GENEL STİL */
-:root {
-  --primary: #5865F2;
-  --secondary: #1e1e2e;
-  --accent: #00d9ff;
-  --white: #ffffff;
-  --gray: #b9b9c9;
-}
-body {
-  margin:0; padding:0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 50%,#16213e 100%);
-  color: var(--white);
-  scroll-behavior: smooth;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arxon NW - Tek Dosya</title>
+  <style>
+    /* ==================== GENEL CSS ==================== */
+    body {
+      margin:0;
+      font-family: 'Arial', sans-serif;
+      background: #111;
+      color: white;
+    }
+    a { text-decoration: none; color: #00d9ff; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .btn { padding: 12px 25px; border:none; border-radius: 8px; cursor:pointer; font-weight:bold; transition:0.3s;}
+    .btn-primary { background:#43b581; color:#fff;}
+    .btn-primary:hover { background:#36a36c; }
+    .btn-secondary { background:#5865f2;color:#fff; }
+    .btn-secondary:hover { background:#4750c4; }
+    .btn-auth { width:100%; margin-top:20px; background:#00d9ff;color:#000; }
+    .btn-danger { background:#f04747; color:#fff; }
+    .btn-danger:hover { background:#d63939; }
 
-/* HERO */
-.hero {
-  position: relative;
-  height: 100vh;
-  display:flex; flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  background: url('https://i.imgur.com/XP2BE7q.jpg') no-repeat center/cover;
-}
-.hero::after {
-  content:'';
-  position:absolute; top:0; left:0;
-  width:100%; height:100%;
-  background: radial-gradient(circle,transparent 0%,rgba(10,10,15,0.9) 100%);
-}
-.hero-content { position:relative; z-index:2; }
-.hero-content h1 {
-  font-size:5rem; font-weight:bold; color:var(--accent);
-  text-shadow: 0 0 10px rgba(0,217,255,0.8),
-               0 0 20px rgba(0,217,255,0.6),
-               0 0 30px rgba(0,217,255,0.4);
-  margin-bottom:20px;
-}
-.hero-content button {
-  padding: 15px 40px; border:none; border-radius:10px;
-  font-size:1.5rem; font-weight:bold;
-  background: linear-gradient(135deg,#5865F2,#7289da);
-  color:white; cursor:pointer; position:relative; overflow:hidden;
-}
-.hero-content button::before {
-  content:''; position:absolute; top:0; left:-100%;
-  width:100%; height:100%; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
-  transition:left 0.5s;
-}
-.hero-content button:hover::before { left:100%; }
-.hero-content button:hover { transform:scale(1.05); }
+    input, textarea { 
+      width:100%; padding:12px; margin-top:5px; border-radius:8px; border:2px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:white;
+      box-sizing:border-box;
+    }
+    input:focus, textarea:focus { outline:none; border-color:#00d9ff; }
+    .form-group { margin-bottom:20px; }
+    .form-hint { font-size:12px; color:rgba(255,255,255,0.4); display:block; margin-top:5px; }
+    .error-message { color:#f04747; margin-top:10px; display:none; }
+    .success-message { color:#43b581; margin-top:10px; display:none; }
+    .char-counter { font-size:12px; color:rgba(255,255,255,0.4); display:block; text-align:right; margin-top:5px; }
 
-/* NAV */
-nav { display:flex; justify-content:center; gap:20px; margin:20px 0; }
-nav a { color:var(--white); text-decoration:none; font-weight:bold; }
-nav a.active { color:var(--accent); }
+    /* ==================== SAYFA BÖLÜMLERİ ==================== */
+    .page-section { display:none; padding:100px 20px 50px; min-height:100vh; }
+    .panel-header, .stats-section, .vip-section, .applications-section, .settings-section { margin-bottom:40px; }
+    .user-card { display:flex; align-items:center; gap:25px; background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);}
+    .user-avatar-large { width:120px;height:120px;border-radius:15px;border:3px solid rgba(0,217,255,0.5); image-rendering: pixelated;}
+    .user-info-main h2 { font-size:32px; margin:0 0 10px 0; }
+    .user-date { color:#b9b9c9; font-size:14px; margin:0; }
+    .badge { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:bold; }
+    .badge-vip { background: linear-gradient(135deg, #FFD700, #FFA500); color:#000; }
+    .badge-member { background: rgba(88,101,242,0.3); color:#7289da; border:1px solid #7289da; }
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .stat-box { background: rgba(88,101,242,0.1); border:1px solid rgba(88,101,242,0.3); border-radius:15px; padding:25px; text-align:center; transition:0.3s;}
+    .stat-box:hover { background: rgba(88,101,242,0.2); transform:translateY(-5px);}
+    .stat-box .stat-icon { font-size:48px; margin-bottom:15px; }
+    .stat-box .stat-value { font-size:36px; font-weight:bold; color:#00d9ff; margin-bottom:8px;}
+    .stat-box .stat-label { color:#b9b9c9; font-size:14px; text-transform:uppercase; }
 
-/* GLASSMORPH STORE KART */
-.glass-card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.3);
-  padding:20px;
-  transition:all 0.3s ease;
-  width:200px; text-align:center; margin:10px;
-}
-.glass-card:hover { transform:translateY(-5px); box-shadow:0 12px 40px rgba(88,101,242,0.3); border-color: rgba(0,217,255,0.3); }
-.glass-card img { width:80px; height:80px; margin-bottom:10px; }
-.glass-card .price { color:var(--accent); font-weight:bold; margin:10px 0; }
-.glass-card button { padding:8px 20px; border:none; border-radius:8px; background:linear-gradient(135deg,#5865F2,#7289da); color:white; cursor:pointer; transition:all 0.3s ease; }
-.glass-card button:hover { transform:scale(1.05); }
+    .vip-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:15px; padding:25px; display:flex; justify-content:space-between; align-items:center; }
+    .vip-status { display:flex; gap:20px; align-items:center; }
+    .status-icon { font-size:48px; }
+    .vip-card h4 { color:white; margin:0 0 5px 0; }
+    .vip-card p { color:#b9b9c9; margin:0; font-size:14px; }
 
-/* HIDE ALL PAGES */
-.page { display:none; padding:20px; }
+    .empty-state { background: rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.2); border-radius:15px; padding:40px; text-align:center; color:#b9b9c9; }
 
-/* INPUTS */
-.input-field { width:100%; padding:10px 15px; margin:10px 0; border-radius:10px; border:2px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color:white; }
-.input-field:focus { outline:none; border-color:var(--accent); box-shadow:0 0 15px rgba(0,217,255,0.3); }
-button.btn { width:100%; padding:12px; border:none; border-radius:10px; cursor:pointer; background:linear-gradient(135deg,#5865F2,#7289da); color:white; font-weight:bold; }
+    .success-container { text-align:center; padding:60px 20px; }
+    .success-icon { font-size:100px; margin-bottom:30px; animation:successPop 0.5s ease-out; }
+    @keyframes successPop {0%{transform:scale(0);}50%{transform:scale(1.2);}100%{transform:scale(1);} }
+    .success-container h2 { font-size:36px; margin-bottom:20px; }
+    .success-container p { font-size:16px; margin-bottom:10px; color:#b9b9c9; }
+    .success-actions { display:flex; gap:15px; justify-content:center; margin-top:40px; }
 
-/* ONLINE COUNT */
-#online-count { color:var(--accent); font-weight:bold; }
-</style>
+    .radio-group { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; margin-top:10px; }
+    .radio-label { display:flex; align-items:center; gap:10px; padding:15px; background:rgba(255,255,255,0.03); border:2px solid rgba(255,255,255,0.1); border-radius:12px; cursor:pointer; transition:0.3s;}
+    .radio-label input[type="radio"] { width:20px; height:20px; cursor:pointer; }
+    .radio-label input[type="radio"]:checked + span { color:#00d9ff; font-weight:bold; }
+    .radio-label:has(input:checked) { background:rgba(0,217,255,0.2); border-color:#00d9ff; }
+
+    /* Toggle Switch */
+    .toggle-switch { width:50px; height:26px; appearance:none; background:rgba(255,255,255,0.1); border-radius:30px; position:relative; cursor:pointer; transition:0.3s; }
+    .toggle-switch:checked { background:#43b581; }
+    .toggle-switch::before { content:''; position:absolute; width:20px;height:20px;border-radius:50%;background:white;top:3px; left:3px; transition:0.3s; }
+    .toggle-switch:checked::before { left:27px; }
+
+    .setting-item { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; }
+    .setting-item:last-of-type { border-bottom:none; }
+
+    @media(max-width:768px){
+      .form-row { grid-template-columns:1fr; }
+      .radio-group { grid-template-columns:1fr; }
+      .user-card { flex-direction:column;text-align:center; }
+      .success-actions { flex-direction:column; }
+      .success-actions .btn { width:100%; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" data-page="home" class="active">Ana Sayfa</a>
-  <a href="#" data-page="store">Mağaza</a>
-  <a href="#" data-page="login">Giriş</a>
-  <a href="#" data-page="register">Kayıt Ol</a>
-</nav>
+<div class="container">
+  <!-- ====== REGISTER / LOGIN SECTION ====== -->
+  <section id="registerSection" class="page-section">
+    <h1>Kayıt Ol</h1>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="reg-username">Kullanıcı Adı</label>
+        <input type="text" id="reg-username" placeholder="3-16 karakter" required>
+        <small class="form-hint">3-16 karakter, alfanumerik</small>
+      </div>
+      <div class="form-group">
+        <label for="reg-email">E-posta Adresi</label>
+        <input type="email" id="reg-email" placeholder="email@example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Şifre</label>
+        <input type="password" id="reg-password" placeholder="En az 8 karakter" minlength="8" required>
+      </div>
+      <div class="form-group">
+        <label for="reg-password-confirm">Şifre Tekrar</label>
+        <input type="password" id="reg-password-confirm" placeholder="Şifreni tekrar gir" minlength="8" required>
+      </div>
+      <div class="form-options">
+        <label><input type="checkbox" id="terms" required> <a href="/terms" class="link-text">Kullanım şartlarını</a> kabul ediyorum</label>
+      </div>
+      <div id="registerMessage" class="error-message"></div>
+      <button type="submit" class="btn btn-auth">KAYIT OL</button>
+    </form>
+    <p>Zaten hesabın var mı? <a href="#" onclick="showSection('loginSection')">Giriş Yap</a></p>
+  </section>
 
-<!-- PAGES -->
-<div id="home" class="page" style="display:block;">
-  <section class="hero">
-    <div class="hero-content">
-      <h1>ARXON NW</h1>
-      <p>Oyuncularla zombilere karşı savaş!</p>
-      <button onclick="copyIP()">IP Kopyala: 193.164.4.244</button>
-      <p>Online oyuncu: <span id="online-count">0</span></p>
+  <section id="loginSection" class="page-section">
+    <h1>Giriş Yap</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="login-username">Kullanıcı Adı</label>
+        <input type="text" id="login-username" placeholder="Kullanıcı adın" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Şifre</label>
+        <input type="password" id="login-password" placeholder="Şifre" required>
+      </div>
+      <div id="loginMessage" class="error-message"></div>
+      <button type="submit" class="btn btn-auth">GİRİŞ YAP</button>
+    </form>
+    <p>Hesabın yok mu? <a href="#" onclick="showSection('registerSection')">Kayıt Ol</a></p>
+  </section>
+
+  <section id="panelSection" class="page-section">
+    <h1>Profilim</h1>
+    <div class="panel-header">
+      <div class="user-card">
+        <img src="https://crafatar.com/avatars/steve?overlay" alt="Avatar" class="user-avatar-large" id="panelAvatar">
+        <div class="user-info-main">
+          <h2 id="panelUsername">Username</h2>
+          <div class="user-badges">
+            <span class="badge badge-vip" id="vipBadge" style="display:none;">⭐ VIP</span>
+            <span class="badge badge-member">👤 Üye</span>
+          </div>
+          <p class="user-date">Kayıt: <span id="panelRegDate">01.01.2024</span></p>
+        </div>
+      </div>
     </div>
+    <button class="btn btn-secondary" onclick="showSection('applicationSection')">Başvuru Yap</button>
+    <button class="btn btn-danger" onclick="logout()">Çıkış Yap</button>
+  </section>
+
+  <section id="applicationSection" class="page-section">
+    <h1>Başvuru Formu</h1>
+    <form id="applicationForm">
+      <div class="form-group">
+        <label for="app-mc-username">Minecraft Kullanıcı Adın</label>
+        <input type="text" id="app-mc-username" required>
+      </div>
+      <div class="form-group">
+        <label for="app-age">Yaşın</label>
+        <input type="number" id="app-age" min="10" max="99" required>
+      </div>
+      <div class="form-group">
+        <label for="app-discord">Discord Kullanıcı Adın</label>
+        <input type="text" id="app-discord" required>
+      </div>
+      <div class="form-group">
+        <label>Başvurulan Pozisyon</label>
+        <div class="radio-group">
+          <label class="radio-label"><input type="radio" name="position" value="Moderatör" required><span>🛡️ Moderatör</span></label>
+          <label class="radio-label"><input type="radio" name="position" value="Admin"><span>⚡ Admin</span></label>
+          <label class="radio-label"><input type="radio" name="position" value="Builder"><span>🏗️ Builder</span></label>
+          <label class="radio-label"><input type="radio" name="position" value="Developer"><span>💻 Developer</span></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="app-experience">Deneyimini Anlat <small>(Min 100 karakter)</small></label>
+        <textarea id="app-experience" rows="6" minlength="100" required></textarea>
+        <small class="char-counter" id="expCounter">0 / 100</small>
+      </div>
+      <div class="form-group">
+        <label for="app-why">Neden Seni Seçmeliyiz? <small>(Min 100 karakter)</small></label>
+        <textarea id="app-why" rows="6" minlength="100" required></textarea>
+        <small class="char-counter" id="whyCounter">0 / 100</small>
+      </div>
+      <div id="appMessage" class="error-message"></div>
+      <button type="submit" class="btn btn-auth">BAŞVURUYU GÖNDER</button>
+    </form>
   </section>
 </div>
 
-<div id="store" class="page">
-  <h2>Mağaza</h2>
-  <div style="display:flex; flex-wrap:wrap;">
-    <div class="glass-card">
-      <img src="https://i.imgur.com/X2zDlIw.png" alt="VIP">
-      <h3>VIP Üyelik</h3>
-      <p class="price">80,00 ₺</p>
-      <button onclick="alert('Satın alındı!')">Satın Al</button>
-    </div>
-    <div class="glass-card">
-      <img src="https://i.imgur.com/9PWKT6U.png" alt="Elmas Kit">
-      <h3>Elmas Kit</h3>
-      <p class="price">25,00 ₺</p>
-      <button onclick="alert('Satın alındı!')">Satın Al</button>
-    </div>
-    <div class="glass-card">
-      <img src="https://i.imgur.com/PqZyD1I.png" alt="Gold Rank">
-      <h3>Gold Rank</h3>
-      <p class="price">150,00 ₺</p>
-      <button onclick="alert('Satın alındı!')">Satın Al</button>
-    </div>
-  </div>
-</div>
-
-<div id="login" class="page">
-  <h2>Giriş Yap</h2>
-  <input type="text" id="login-username" placeholder="Kullanıcı Adı veya E-posta" class="input-field">
-  <input type="password" id="login-password" placeholder="Şifre" class="input-field">
-  <button class="btn" onclick="loginPrompt()">Giriş Yap</button>
-</div>
-
-<div id="register" class="page">
-  <h2>Kayıt Ol</h2>
-  <input type="text" id="reg-username" placeholder="Kullanıcı Adı" class="input-field">
-  <input type="email" id="reg-email" placeholder="E-posta" class="input-field">
-  <input type="password" id="reg-password" placeholder="Şifre" class="input-field">
-  <input type="password" id="reg-password2" placeholder="Şifre Tekrar" class="input-field">
-  <button class="btn" onclick="registerPrompt()">Kayıt Ol</button>
-</div>
-
 <script>
-// NAV SWITCH
-document.querySelectorAll('nav a').forEach(link=>{
-  link.addEventListener('click', e=>{
+  /* ========== GLOBAL FUNCTIONS ========== */
+  function isLoggedIn(){ return localStorage.getItem('arxon_logged_in')==='true'; }
+  function getCurrentUser(){ const u=localStorage.getItem('arxon_current_user'); if(!u)return null; const users=JSON.parse(localStorage.getItem('arxon_users')||'{}'); return users[u]; }
+  function logout(){ localStorage.removeItem('arxon_logged_in'); localStorage.removeItem('arxon_current_user'); showSection('loginSection'); }
+
+  function showSection(id){ document.querySelectorAll('.page-section').forEach(s=>s.style.display='none'); document.getElementById(id).style.display='block'; }
+
+  /* ===== REGISTER ===== */
+  document.getElementById('registerForm').addEventListener('submit', function(e){
     e.preventDefault();
-    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-    document.querySelectorAll('nav a').forEach(l=>l.classList.remove('active'));
-    const page = link.getAttribute('data-page');
-    document.getElementById(page).style.display='block';
-    link.classList.add('active');
+    const username=document.getElementById('reg-username').value.trim();
+    const email=document.getElementById('reg-email').value.trim();
+    const password=document.getElementById('reg-password').value;
+    const passwordConfirm=document.getElementById('reg-password-confirm').value;
+    const terms=document.getElementById('terms').checked;
+    const message=document.getElementById('registerMessage');
+
+    if(username.length<3||username.length>16){ showRegisterError('Kullanıcı adı 3-16 karakter olmalı!'); return; }
+    if(!/^[a-zA-Z0-9_]+$/.test(username)){ showRegisterError('Kullanıcı adı sadece harf, rakam ve _ içerebilir!'); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showRegisterError('Geçerli bir e-posta adresi girin!'); return; }
+    if(password.length<8){ showRegisterError('Şifre en az 8 karakter olmalı!'); return; }
+    if(password!==passwordConfirm){ showRegisterError('Şifreler eşleşmiyor!'); return; }
+    if(!terms){ showRegisterError('Kullanım şartlarını kabul etmelisiniz!'); return; }
+
+    const users=JSON.parse(localStorage.getItem('arxon_users')||'{}');
+    if(users[username]){ showRegisterError('Bu kullanıcı adı zaten alınmış!'); return; }
+    for(let k in users){ if(users[k].email===email){ showRegisterError('Bu e-posta adresi zaten kullanılıyor!'); return; } }
+
+    const newUser={username,email,password:btoa(password),registerDate:new Date().toISOString(),vipStatus:false,vipExpire:null,stats:{playtime:0,level:1,boxmines:0},applications:[]};
+    users[username]=newUser;
+    localStorage.setItem('arxon_users',JSON.stringify(users));
+    localStorage.setItem('arxon_logged_in','true');
+    localStorage.setItem('arxon_current_user',username);
+    showRegisterSuccess('Kayıt başarılı! Yönlendiriliyorsun...');
+    setTimeout(()=>{ loadUserPanel(); showSection('panelSection'); }, 1000);
   });
-});
 
-// ONLINE COUNT MOCK
-function updateOnlineCount() {
-  document.getElementById('online-count').textContent = Math.floor(Math.random()*50);
-}
-setInterval(updateOnlineCount,30000);
-updateOnlineCount();
+  function showRegisterError(msg){ const m=document.getElementById('registerMessage'); m.className='error-message'; m.textContent=msg; m.style.display='block'; setTimeout(()=>m.style.display='none',4000); }
+  function showRegisterSuccess(msg){ const m=document.getElementById('registerMessage'); m.className='success-message'; m.textContent=msg; m.style.display='block'; }
 
-// IP COPY
-function copyIP() {
-  navigator.clipboard.writeText('193.164.4.244');
-  alert('IP kopyalandı: 193.164.4.244');
-}
-
-// LOGIN/REGISTER PROMPT
-function registerPrompt() {
-  const username = document.getElementById('reg-username').value;
-  const email = document.getElementById('reg-email').value;
-  const password = document.getElementById('reg-password').value;
-  const password2 = document.getElementById('reg-password2').value;
-  if(!username||!email||!password||!password2){alert('Tüm alanları doldurun!'); return;}
-  if(password!==password2){alert('Şifreler eşleşmiyor!'); return;}
-  const userData = {username,email,password:btoa(password)};
-  localStorage.setItem('user_'+username,JSON.stringify(userData));
-  localStorage.setItem('currentUser',username);
-  localStorage.setItem('userLoggedIn','true');
-  alert('Kayıt başarılı!');
-  document.querySelector('[data-page="login"]').click();
-}
-function loginPrompt() {
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
-  const user = JSON.parse(localStorage.getItem('user_'+username));
-  if(user && atob(user.password)===password){
-    localStorage.setItem('currentUser',username);
-    localStorage.setItem('userLoggedIn','true');
-    alert('Giriş başarılı!');
-  } else { alert('Kullanıcı bulunamadı veya şifre yanlış!'); }
-}
-</script>
-</body>
-</html>
+  /* ===== LOGIN ===== */
