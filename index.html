@@ -1,259 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<title>ValeronMC Server</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#0f172a"/>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family: Inter, Arial, sans-serif;
-  color:#fff;
-  background:#000;
-}
+  <meta name="description" content="Arxon Network | Minecraft Sunucusu"/>
+  <meta name="keywords" content="Arxon Network, Minecraft, AreonMC, PvP, Survival"/>
+  <meta name="author" content="Arxon Network"/>
 
-/* ARKA PLAN: TEK SATÜRN */
-.bg{
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at center, rgba(0,0,0,.15), #000 70%),
-    url("https://images.wallpapersden.com/image/download/saturn-planet-4k_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg")
-      no-repeat center center;
-  background-size:cover;
-  z-index:-1;
-}
+  <title>Arxon Network | 193.164.4.244</title>
 
-/* NAVBAR (ATTIGIN FOTOYLA AYNI STIL) */
-.navbar{
-  height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 32px;
-  background:rgba(0,0,0,.7);
-  backdrop-filter: blur(14px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.brand{
-  font-weight:600;
-  font-size:18px;
-}
-.nav-center a{
-  margin:0 14px;
-  color:#d7d7d7;
-  text-decoration:none;
-  font-size:14.5px;
-}
-.nav-center a:hover{color:#4cc9ff}
-.nav-right a{
-  margin-left:10px;
-  padding:8px 16px;
-  border-radius:10px;
-  text-decoration:none;
-  font-size:14px;
-}
-.login{background:#111;color:#fff}
-.register{
-  background:linear-gradient(135deg,#2afcff,#1f6bff);
-  color:#000;
-}
+  <!-- React build -->
+  <script defer src="/pod-backups/areonmc-server/build/static/js/main.feeced40.js"></script>
+  <link href="/pod-backups/areonmc-server/build/static/css/main.49c976b6.css" rel="stylesheet">
 
-/* HERO */
-.hero{
-  min-height:calc(100vh - 72px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-/* SOL STATUS */
-.status{
-  position:absolute;
-  top:36px; left:36px;
-  padding:16px 22px;
-  border-radius:18px;
-  backdrop-filter: blur(14px);
-  background:rgba(10,20,30,.55);
-  border:1px solid rgba(42,252,255,.35);
-  box-shadow:0 0 30px rgba(42,252,255,.15);
-  font-size:14px;
-}
-
-/* SAĞ DISCORD */
-.discord{
-  position:absolute;
-  top:36px; right:36px;
-  padding:16px 22px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#5865F2,#404EED);
-  color:#fff;
-  text-decoration:none;
-  font-weight:600;
-  box-shadow:0 0 30px rgba(88,101,242,.45);
-}
-
-/* ORTA KART */
-.center{
-  text-align:center;
-  padding:48px 64px;
-  border-radius:30px;
-  backdrop-filter: blur(18px);
-  background:rgba(0,0,0,.45);
-  box-shadow:0 0 70px rgba(0,0,0,.65);
-}
-
-/* BUZ KURTBAŞI LOGO (INLINE SVG) */
-.logo-wrap{
-  width:120px; height:120px;
-  margin:0 auto 18px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #b8f7ff, #2afcff 40%, #1f6bff 75%);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 40px rgba(42,252,255,.6);
-}
-.logo-wrap svg{width:78px;height:78px}
-
-.center h1{
-  margin:10px 0 6px;
-  font-size:40px;
-}
-.center p{color:#cfcfcf}
-
-/* BUTONLAR */
-.actions{margin-top:26px}
-.actions button{
-  padding:14px 34px;
-  margin:0 8px;
-  border-radius:18px;
-  border:none;
-  cursor:pointer;
-  font-size:15px;
-}
-.btn-login{
-  background:linear-gradient(135deg,#2afcff,#1f6bff);
-  color:#000;
-}
-.btn-register{
-  background:transparent;
-  color:#2afcff;
-  border:1px solid rgba(42,252,255,.6);
-}
-
-/* IP */
-.ip{
-  margin-top:26px;
-  padding:14px 22px;
-  border-radius:18px;
-  display:inline-flex;
-  gap:12px;
-  align-items:center;
-  backdrop-filter: blur(12px);
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.15);
-}
-.ip span{color:#2afcff}
-.ip button{
-  background:none;border:none;color:#fff;cursor:pointer
-}
-</style>
 </head>
+<body style="background:#020617;color:white">
 
-<body>
-<div class="bg"></div>
+<noscript>Bu site JavaScript olmadan çalışmaz.</noscript>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="nav-left">
-    <div class="logo-wrap" style="width:36px;height:36px;box-shadow:none">
-      <!-- mini kurt -->
-      <svg viewBox="0 0 64 64" fill="none">
-        <path d="M12 40 L20 16 L32 24 L44 16 L52 40 L32 52 Z"
-              fill="#e9fbff"/>
-        <path d="M26 34 L30 36 L26 38 ZM38 34 L34 36 L38 38 Z"
-              fill="#1f6bff"/>
-      </svg>
-    </div>
-    <div class="brand">ValeronMC</div>
-  </div>
+<div id="root"></div>
 
-  <div class="nav-center">
-    <a href="#">Anasayfa</a>
-    <a href="#">Mağaza</a>
-    <a href="#">Yardım</a>
-    <a href="#">Destek</a>
-  </div>
-
-  <div class="nav-right">
-    <a class="login" href="#">Giriş Yap</a>
-    <a class="register" href="#">Kayıt Ol</a>
-  </div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-
-  <div class="status">
-    <div id="st">Kontrol ediliyor</div>
-    <div id="pl">Oyuncu: -</div>
-    <small>193.164.4.244</small>
-  </div>
-
-  <a class="discord" href="#">BİZE KATIL<br><small>DISCORD</small></a>
-
-  <div class="center">
-    <div class="logo-wrap">
-      <!-- BUZ KURTBAŞI -->
-      <svg viewBox="0 0 64 64" fill="none">
-        <path d="M8 42 L18 10 L32 20 L46 10 L56 42 L32 58 Z"
-              fill="#e9fbff"/>
-        <path d="M26 36 L30 38 L26 40 ZM38 36 L34 38 L38 40 Z"
-              fill="#1f6bff"/>
-        <path d="M24 46 L32 48 L40 46"
-              stroke="#1f6bff" stroke-width="2" />
-      </svg>
-    </div>
-
-    <h1>ValeronMC Server</h1>
-    <p>Topluluğumuza katılmak için giriş yap veya kayıt ol</p>
-
-    <div class="actions">
-      <button class="btn-login">Giriş Yap</button>
-      <button class="btn-register">Kayıt Ol</button>
-    </div>
-
-    <div class="ip">
-      <span id="ip">193.164.4.244</span>
-      <button onclick="copyIP()">📋</button>
-    </div>
-  </div>
-</div>
-
+<!-- Analytics (istersen kapat) -->
 <script>
-const IP="193.164.4.244", PORT="25565";
-async function check(){
-  try{
-    const r=await fetch(`https://api.mcstatus.io/v2/status/java/${IP}:${PORT}`,{cache:"no-store"});
-    const d=await r.json();
-    if(d.online){
-      st.textContent="Sunucu Açık";
-      pl.textContent=`Oyuncu: ${d.players.online} / ${d.players.max}`;
-    } else throw "";
-  }catch{
-    st.textContent="Sunucu Kapalı";
-    pl.textContent="Oyuncu: 0";
-  }
-}
-check(); setInterval(check,15000);
-function copyIP(){navigator.clipboard.writeText(IP)}
+!function(e,t){
+  var r,s,o,i;
+  t.__SV||(window.posthog=t,t._i=[],t.init=function(n,a,p){
+    function c(e,t){
+      var r=t.split(".");
+      2==r.length&&(e=e[r[0]],t=r[1]),
+      e[t]=function(){
+        e.push([t].concat([].slice.call(arguments,0)))
+      }
+    }
+    (o=e.createElement("script")).type="text/javascript",
+    o.async=!0,
+    o.src=a.api_host+"/static/array.js",
+    (i=e.getElementsByTagName("script")[0]).parentNode.insertBefore(o,i);
+    var g=t;
+    for(p="posthog",g.people=g.people||[],r="capture identify reset".split(" "),s=0;s<r.length;s++)c(g,r[s]);
+    t._i.push([n,a,p])
+  },t.__SV=1)
+}(document,window.posthog||[]);
+
+posthog.init("phc_DISABLED",{
+  api_host:"https://us.i.posthog.com",
+  autocapture:false
+});
 </script>
+
 </body>
 </html>
