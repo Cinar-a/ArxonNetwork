@@ -1,328 +1,478 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arxon Network • BoxMining & Survival</title>
+  <meta charset="UTF-8" />
+  <title>Arxon Network | Minecraft Sunucusu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --bg:#0a0a0f;
-  --bg2:#111;
-  --purple:#a855f7;
-  --blue:#60a5fa;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-}
+  <style>
+    :root{
+      --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --purple: #9b5cff;
+      --pink: #ff5fd7;
+      --blue: #4dd0ff;
+      --dark: #0b0b16;
+      --card: rgba(20,20,40,0.85);
+      --text: #eaeaff;
+      --muted: #a0a0c0;
+      --green: #3dff9a;
+      --red: #ff4d4d;
+    }
 
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Montserrat,sans-serif;
+    *{
+      box-sizing: border-box;
+      margin:0;
+      padding:0;
+    }
 
-  background:linear-gradient(180deg,var(--bg),var(--bg2));
-  color:var(--text);
-}
+    html{
+      scroll-behavior: smooth;
+    }
 
-#particles-js{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-}
+    body{
+      font-family: 'Poppins', sans-serif;
+      min-height:100vh;
+      background: var(--bg-gradient);
+      color: var(--text);
+    }
 
-/* NAVBAR */
-.navbar{
-  position:sticky;
-  top:0;
-  z-index:50;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 30px;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(12px);
-}
+    a{
+      color:inherit;
+      text-decoration:none;
+      cursor:pointer;
+    }
 
-.logo{
-  font-family:Orbitron;
-  font-size:22px;
-}
-.logo span{color:var(--purple)}
+    /* NAVBAR */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background: linear-gradient(90deg, #1b163a, #2e2469);
+      box-shadow: 0 8px 30px rgba(155,92,255,0.35);
+    }
 
-.menu{
-  list-style:none;
-  display:flex;
-  gap:22px;
-}
-.menu a{
-  color:var(--muted);
-  text-decoration:none;
-  font-weight:600;
-}
-.menu a:hover{
-  color:#fff;
-  text-shadow:0 0 10px var(--purple);
-}
+    .nav-inner{
+      max-width:1200px;
+      margin:auto;
+      padding:14px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
 
-.auth{
-  display:flex;
-  gap:12px;
-}
-.btn{
-  padding:10px 18px;
-  border-radius:10px;
-  font-weight:700;
-  text-decoration:none;
-  transition:.3s;
-}
-.login{
-  border:1px solid var(--purple);
-  color:#fff;
-  box-shadow:0 0 12px rgba(168,85,247,.5);
-}
-.register{
-  border:1px solid var(--blue);
-  color:#fff;
-  box-shadow:0 0 12px rgba(96,165,250,.5);
-}
-.btn:hover{
-  transform:scale(1.08);
-}
+    .nav-logo{
+      font-weight:800;
+      font-size:22px;
+      background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
-/* HERO */
-.hero{
-  text-align:center;
-  padding:120px 20px 90px;
-}
-.hero h1{
-  font-family:Orbitron;
-  font-size:64px;
-  text-shadow:0 0 30px rgba(168,85,247,.6);
-}
-.hero p{
-  margin-top:12px;
-}
-.hero-buttons{
-  margin-top:40px;
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-.primary{
-  background:var(--purple);
-  color:#000;
-  box-shadow:0 0 25px rgba(168,85,247,.7);
-}
-.secondary{
-  border:1px solid var(--blue);
-  box-shadow:0 0 25px rgba(96,165,250,.6);
-}
+    .nav-links{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
 
-/* STATS */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-  padding:60px 40px;
-}
-.card{
-  background:rgba(255,255,255,.05);
-  border-radius:16px;
-  padding:26px;
-  text-align:center;
-  backdrop-filter:blur(8px);
-}
-.card span{
-  display:block;
-  margin-top:10px;
-  font-size:28px;
-  color:var(--purple);
-  font-weight:700;
-}
+    .nav-links a{
+      font-size:14px;
+      opacity:.9;
+      transition:.2s;
+    }
 
-/* SECTIONS */
-section{padding:90px 30px}
-h2{text-align:center;font-size:36px;margin-bottom:30px}
+    .nav-links a:hover{
+      opacity:1;
+      color: var(--pink);
+    }
 
-/* TABLE */
-table{
-  width:100%;
-  max-width:900px;
-  margin:auto;
-  border-collapse:collapse;
-}
-th,td{
-  padding:14px;
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-th{
-  background:rgba(168,85,247,.15);
-}
+    /* SECTIONS */
+    .container{
+      max-width:1100px;
+      margin:auto;
+      padding:60px 20px;
+    }
 
-/* DISCORD */
-.discord{text-align:center}
-.discord a{
-  display:inline-block;
-  margin-top:20px;
-  background:var(--blue);
-  color:#000;
-  box-shadow:0 0 30px rgba(96,165,250,.7);
-}
+    .section{
+      display:none;
+      animation: fade .35s ease;
+    }
 
-/* FOOTER */
-footer{
-  padding:30px;
-  text-align:center;
-  color:#9ca3af;
-}
+    .section.active{
+      display:block;
+    }
 
-@media(max-width:900px){
-  .menu{display:none}
-    #cursor-glow{
-  position:fixed;
-  top:0;
-  left:0;
-  width:300px;
-  height:300px;
-  pointer-events:none;
-  background:radial-gradient(
-    circle,
-    rgba(168,85,247,0.25) 0%,
-    rgba(96,165,250,0.15) 40%,
-    rgba(0,0,0,0) 70%
-  );
-  transform:translate(-50%,-50%);
-  filter:blur(20px);
-  z-index:1;
-  transition:background .3s ease;
+    @keyframes fade{
+      from{opacity:0; transform:translateY(10px)}
+      to{opacity:1; transform:none}
+    }
 
-}
-</style>
+    /* HERO */
+    .hero{
+      text-align:center;
+      margin-bottom:50px;
+    }
 
+    .hero h1{
+      font-size:52px;
+      font-weight:800;
+      line-height:1.1;
+      background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
+    .hero p{
+      margin-top:12px;
+      font-size:18px;
+      color: var(--muted);
+    }
+
+    /* CARDS */
+    .card{
+      background: var(--card);
+      border-radius:20px;
+      padding:28px;
+      box-shadow: 0 0 35px rgba(155,92,255,0.35);
+      transition:.25s;
+    }
+
+    .card:hover{
+      transform: scale(1.04);
+      box-shadow: 0 0 55px rgba(155,92,255,0.6);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap:24px;
+    }
+
+    /* SERVER STATUS */
+    .status{
+      text-align:center;
+    }
+
+    .status h2{
+      font-size:24px;
+      margin-bottom:10px;
+    }
+
+    .status .online{
+      color: var(--green);
+      font-weight:700;
+    }
+
+    .status .offline{
+      color: var(--red);
+      font-weight:700;
+    }
+
+    .ip-box{
+      margin-top:16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+    }
+
+    .ip{
+      font-weight:600;
+      letter-spacing:1px;
+    }
+
+    button{
+      background: linear-gradient(90deg, var(--purple), var(--pink));
+      border:none;
+      color:#fff;
+      padding:12px 18px;
+      border-radius:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+      filter:brightness(1.1);
+    }
+
+    /* SHOP */
+    .price{
+      font-size:26px;
+      font-weight:800;
+      margin:10px 0;
+      color: var(--green);
+    }
+
+    ul{
+      margin-top:10px;
+      padding-left:18px;
+      color: var(--muted);
+      font-size:14px;
+    }
+
+    /* FORMS */
+    form{
+      max-width:420px;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    input, textarea{
+      padding:12px 14px;
+      border-radius:12px;
+      border:none;
+      outline:none;
+      background:#14142a;
+      color:#fff;
+      font-family:inherit;
+    }
+
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    /* FAQ */
+    .faq-item{
+      margin-bottom:14px;
+    }
+
+    .faq-q{
+      cursor:pointer;
+      font-weight:600;
+      color: var(--purple);
+    }
+
+    .faq-a{
+      display:none;
+      font-size:14px;
+      color: var(--muted);
+      margin-top:6px;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      padding:30px 10px;
+      color: var(--muted);
+      font-size:14px;
+    }
+
+    /* MOBILE */
+    @media(max-width:600px){
+      .hero h1{font-size:38px}
+      .nav-links{justify-content:center}
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="particles-js"></div>
-
+<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="logo">ARXON <span>NETWORK</span></div>
-  <ul class="menu">
-    <li><a href="#">Anasayfa</a></li>
-    <li><a href="#magaza">Mağaza</a></li>
-    <li><a href="#kurallar">Kurallar</a></li>
-    <li><a href="#discord">Discord</a></li>
-  </ul>
-  <div class="auth">
-    <a href="#login" class="btn login">Giriş Yap</a>
-    <a href="#register" class="btn register">Kayıt Ol</a>
-    <div id="cursor-glow"></div>
+  <div class="nav-inner">
+    <div class="nav-logo">Arxon Network</div>
+    <div class="nav-links">
+      <a onclick="showSection('home')">Ana Sayfa</a>
+      <a onclick="showSection('shop')">Mağaza</a>
+      <a onclick="showSection('help')">Yardım</a>
+      <a onclick="showSection('login')">Giriş Yap</a>
+      <a onclick="showSection('register')">Kayıt Ol</a>
+      <a onclick="showSection('support')">Destek/Ticket</a>
+      <a onclick="showSection('privacy')">Gizlilik</a>
+      <a onclick="showSection('kvkk')">KVKK</a>
+    </div>
   </div>
 </nav>
 
-<section class="hero">
-  <h1>ARXON NETWORK</h1>
-  <p>Türkiye'nin En Güçlü BoxMining & Survival Sunucusu</p>
-  <p>Binlerce oyuncuyla limitsiz macera seni bekliyor!</p>
+<div class="container">
 
-  <div class="hero-buttons">
-    <a class="btn primary" href="minecraft://connect/193.164.4.244">Oyuna Gir</a>
-    <a class="btn secondary" href="https://discord.gg/HEEPr9k9uD">Discord</a>
-  </div>
-</section>
+  <!-- HOME -->
+  <section id="home" class="section active">
+    <div class="hero">
+      <h1>Arxon Network</h1>
+      <p>Her zaman en iyisi!</p>
+    </div>
 
-<section class="stats">
-  <div class="card">Sunucu Durumu<span id="status">Yükleniyor</span></div>
-  <div class="card">Toplam Kayıt<span id="registerCount">Yükleniyor</span></div>
-  <div class="card">Uptime<span>99.98%</span></div>
-  <div class="card">En Yüksek Bağış<span>0 TL</span></div>
-</section>
+    <div class="grid">
+      <div class="card status">
+        <h2>Sunucu Durumu</h2>
+        <div id="serverStatus">Yükleniyor...</div>
+        <div class="ip-box">
+          <div class="ip">193.164.4.244</div>
+          <button onclick="copyIP()">Sunucu Adresini Kopyala</button>
+        </div>
+        <p id="motd" style="margin-top:12px;font-size:13px;color:var(--muted)"></p>
+      </div>
 
-<section id="magaza">
-  <h2>🛒 Mağaza</h2>
-  <table>
-    <tr><th>Ürün</th><th>Fiyat</th></tr>
-    <tr><td>VIP</td><td>99 TL</td></tr>
-    <tr><td>Legend</td><td>249 TL</td></tr>
-    <tr><td>Spawner Paketi</td><td>149 TL</td></tr>
-  </table>
-</section>
+      <div class="card status">
+        <h2>Discord</h2>
+        <p>Topluluğumuza katıl</p>
+        <a href="https://discord.gg/HEEPr9k9uD" target="_blank">
+          <button style="margin-top:14px">Discord Sunucusuna Katıl</button>
+        </a>
+      </div>
+    </div>
+  </section>
 
-<section id="kurallar">
-  <h2>📜 Kurallar</h2>
-  <table>
-    <tr><th>#</th><th>Kural</th><th>Ceza</th></tr>
-    <tr><td>1</td><td>Hile yasaktır</td><td>Perma Ban</td></tr>
-    <tr><td>2</td><td>Küfür / Toxic</td><td>Mute</td></tr>
-    <tr><td>3</td><td>Reklam</td><td>Ban</td></tr>
-  </table>
-</section>
+  <!-- SHOP -->
+  <section id="shop" class="section">
+    <h2 style="text-align:center;margin-bottom:30px">Alışverişe Başla!</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Elmas VIP+</h3>
+        <div class="price">149₺</div>
+        <ul>
+          <li>Özel sohbet rengi</li>
+          <li>VIP alanları</li>
+          <li>Ek /kit</li>
+        </ul>
+        <button style="margin-top:14px">Satın Al</button>
+      </div>
 
-<section id="discord" class="discord">
-  <h2>Discord</h2>
-  <p>Topluluğa katıl</p>
-  <a class="btn" href="https://discord.gg/HEEPr9k9uD">Discord'a Katıl</a>
-</section>
+      <div class="card">
+        <h3>Ultra VIP</h3>
+        <div class="price">249₺</div>
+        <ul>
+          <li>Tüm VIP+ özellikleri</li>
+          <li>Özel uçma</li>
+          <li>Ek kasa anahtarı</li>
+        </ul>
+        <button style="margin-top:14px">Satın Al</button>
+      </div>
+
+      <div class="card">
+        <h3>Legend</h3>
+        <div class="price">399₺</div>
+        <ul>
+          <li>Tüm özellikler</li>
+          <li>Özel eşyalar</li>
+          <li>Öncelikli destek</li>
+        </ul>
+        <button style="margin-top:14px">Satın Al</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HELP -->
+  <section id="help" class="section">
+    <h2 style="text-align:center;margin-bottom:30px">Sana nasıl yardımcı olabiliriz?</h2>
+
+    <div class="card">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Sunucuya nasıl girerim?</div>
+        <div class="faq-a">IP adresini kopyalayıp Minecraft'a girmen yeterli.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">VIP aldım gelmedi</div>
+        <div class="faq-a">Destek bölümünden ticket açabilirsin.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Konu bulunamadı</div>
+        <div class="faq-a">Aradığın şey burada yok. Şimdilik.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login" class="section">
+    <h2 style="text-align:center;margin-bottom:30px">Giriş Yap</h2>
+    <form>
+      <input placeholder="Kullanıcı Adı veya E-posta">
+      <input type="password" placeholder="Şifre">
+      <button>Giriş Yap</button>
+    </form>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register" class="section">
+    <h2 style="text-align:center;margin-bottom:30px">Kayıt Ol</h2>
+    <form>
+      <input placeholder="Kullanıcı Adı">
+      <input placeholder="E-posta">
+      <input type="password" placeholder="Şifre">
+      <input type="password" placeholder="Şifre Tekrar">
+      <button>Kayıt Ol</button>
+    </form>
+  </section>
+
+  <!-- SUPPORT -->
+  <section id="support" class="section">
+    <h2 style="text-align:center;margin-bottom:30px">Destek Talebi Oluştur</h2>
+    <form>
+      <input placeholder="Konu">
+      <textarea placeholder="Mesajın"></textarea>
+      <button>Gönder</button>
+    </form>
+  </section>
+
+  <!-- PRIVACY -->
+  <section id="privacy" class="section">
+    <h2>Gizlilik Sözleşmesi - Arxon Network</h2>
+    <p>Bu metin örnek amaçlıdır. Kullanıcı bilgilerinin korunması bizim için önemlidir.</p>
+    <p>Toplanan veriler hizmet kalitesini artırmak için kullanılır.</p>
+    <p>Üçüncü şahıslarla paylaşım yapılmaz.</p>
+    <p>Yasal yükümlülükler saklıdır.</p>
+    <p>Detaylı bilgi için destek ekibimizle iletişime geçebilirsiniz.</p>
+  </section>
+
+  <!-- KVKK -->
+  <section id="kvkk" class="section">
+    <h2>Kişisel Verilerin Korunması ve İşlenmesi</h2>
+    <ol>
+      <li>Veri sorumlusu Arxon Network'tür.</li>
+      <li>Veriler hizmet sunumu amacıyla toplanır.</li>
+      <li>Hukuki yükümlülükler kapsamında saklanır.</li>
+      <li>Kullanıcılar haklarını destek birimi üzerinden kullanabilir.</li>
+    </ol>
+  </section>
+
+</div>
 
 <footer>
-  © 2026 Arxon Network • Türkiye
+  © 2026 Arxon Network
 </footer>
 
 <script>
-particlesJS("particles-js",{
-  particles:{
-    number:{value:70},
-    color:{value:["#a855f7","#60a5fa"]},
-    opacity:{value:.5,random:true},
-    size:{value:3,random:true},
-    move:{enable:true,speed:1}
+  function showSection(id){
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
   }
-});
-</script>
 
-<script>
-async function serverStatus(){
-  const el=document.getElementById("status");
-  try{
-    const r=await fetch("https://api.mcstatus.io/v2/status/java/193.164.4.244");
-    const d=await r.json();
-    if(d.online){
-      el.innerHTML=`ᯤ ${d.players.online} Oyuncu`;
-      el.style.color="#22c55e";
-    }else{
-      el.innerHTML="ᯤ Kapalı";
-      el.style.color="#ef4444";
-    }
-  }catch{
-    el.innerHTML="Bağlantı Yok";
+  function copyIP(){
+    navigator.clipboard.writeText('193.164.4.244');
+    alert('IP kopyalandı!');
   }
-}
-serverStatus();
-setInterval(serverStatus,10000);
-  <script>
-async function registerCount(){
-  await fetch("https://api.countapi.xyz/hit/arxon/register");
-  const r=await fetch("https://api.countapi.xyz/get/arxon/register");
-  const d=await r.json();
-  document.getElementById("registerCount").innerText=d.value;
-}
-registerCount();
-</script>
-<script>
-const glow = document.getElementById("cursor-glow");
 
-document.addEventListener("mousemove", e => {
-  glow.style.left = e.clientX + "px";
-  glow.style.top  = e.clientY + "px";
-});
-</script>
+  function toggleFAQ(el){
+    const a = el.nextElementSibling;
+    a.style.display = a.style.display === 'block' ? 'none' : 'block';
+  }
 
+  // SERVER STATUS
+  fetch('https://api.mcsrvstat.us/3/193.164.4.244')
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById('serverStatus');
+      if(d.online){
+        el.innerHTML = `<span class="online">${d.players.online} oyuncu aktif</span>`;
+        document.getElementById('motd').innerText = d.motd?.clean?.join(' ') || '';
+      }else{
+        el.innerHTML = `<span class="offline">Sunucu Kapalı</span>`;
+      }
+    })
+    .catch(()=>{
+      document.getElementById('serverStatus').innerHTML = '<span class="offline">Durum alınamadı</span>';
+    });
 </script>
-
 
 </body>
 </html>
